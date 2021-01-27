@@ -20,6 +20,7 @@ import (
 	"github.com/hashicorp/terraform/backend"
 	"github.com/hashicorp/terraform/backend/local"
 	"github.com/hashicorp/terraform/command/format"
+	"github.com/hashicorp/terraform/command/views"
 	"github.com/hashicorp/terraform/command/webbrowser"
 	"github.com/hashicorp/terraform/configs/configload"
 	"github.com/hashicorp/terraform/internal/getproviders"
@@ -333,6 +334,10 @@ func (m *Meta) StdinPiped() bool {
 		return false
 	}
 	return !m.Streams.Stdin.IsTerminal()
+}
+
+func (m *Meta) View() views.View {
+	return views.NewView(m.Ui, m.Color, m.compactWarnings, m.OutputColumns(), m.ErrorColumns(), m.configSources)
 }
 
 // InterruptibleContext returns a context.Context that will be cancelled
